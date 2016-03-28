@@ -31,6 +31,14 @@ Route::get('logout', function(){
 });
 
 /**
+ * API area
+ */
+Route::group(['prefix' => 'api'], function() {
+	Route::get('users', ['as' => 'apiUsers', 'uses' => 'ApiController@getUsers']);
+
+});
+
+/**
  * public area
  */
 Route::post('login', ['as' => 'loginPost', 'uses' => 'LoginController@checkLogin']);

@@ -1,6 +1,6 @@
 <?php
 
-class PublicController extends BaseController{
+class ApiController extends BaseController{
 
     /**
      * CSRF validation on requests
@@ -11,11 +11,13 @@ class PublicController extends BaseController{
     }
 
     /**
-     * show homepage
+     * get list of all users
      * @return mixed
      */
-    public function showHome()
+    public function getUsers()
     {
-        return View::make('public.index')->with(['page_title' => 'Dobrodošli']);
+        $users_data = User::orderBy('id', 'ASC')->get();
+
+        return json_encode($users_data, JSON_UNESCAPED_UNICODE);
     }
 }
