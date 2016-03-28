@@ -2,7 +2,7 @@
 
     <section class="section main-content img-center text-center" id="main">
         {{ HTML::image('css/assets/images/logo.png', 'Logo', ['title' => 'TVZskladište', 'class' => 'img-responsive']) }}                        
-        <h1 class="section-header">Prijava</h1>
+        <h1 class="section-header">Registracija</h1>
 
         <!-- login container -->
         <div class="container" id="login-block">
@@ -11,7 +11,15 @@
                     <div class="login-box clearfix">
                         <hr>
                         <div class="login-form">
-                            {{ Form::open(['url' => 'login', 'role' => 'form', 'id' => 'adminLogin']) }}
+                            {{ Form::open(['url' => 'register', 'role' => 'form', 'id' => 'register']) }}
+                            <div class="form-group-login">
+                                {{ Form::label('full_name', 'Ime i prezime:') }}
+                                {{ Form::text('full_name', null, ['class' => 'form-control', 'placeholder' => 'Ime i prezime', 'id' => 'full_name', 'required']) }}
+                            </div>
+                            <div class="form-group-login">
+                                {{ Form::label('email', 'E-mail:') }}
+                                {{ Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'E-mail', 'id' => 'email', 'required']) }}
+                            </div>
                             <div class="form-group-login">
                                 {{ Form::label('username', 'Korisničko ime:') }}
                                 {{ Form::text('username', null, ['class' => 'form-control', 'placeholder' => 'Korisničko ime', 'id' => 'username', 'required']) }}
@@ -20,14 +28,14 @@
                                 {{ Form::label('password', 'Lozinka:') }}
                                 {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Lozinka', 'id' => 'password', 'required']) }}
                             </div>
-                            <div class="form-group-login text-center">
-                                <div class="checkbox checkbox-primary">
-                                    {{ Form::checkbox('rememberMe', 1, true, ['id' => 'rememberMe']) }}
-                                    {{ Form::label('rememberMe', 'Zapamti me?', ['class' => 'checkbox-inline', 'id' => 'check-adjust', 'checked']) }}
-                                </div>
-                            </div><br>
+                            <div class="form-group-login">
+                                {{ Form::label('password_again', 'Ponovite lozinku :') }}
+                                {{ Form::password('password_again', ['class' => 'form-control', 'placeholder' => 'Ponovite lozinku', 'id' => 'password_again', 'required']) }}
+                            </div>
+
+                            <br>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-padded" id="loginSubmit">Prijava <i class="fa fa-sign-in"></i></button>
+                                <button type="submit" class="btn btn-primary btn-padded" id="registerSubmit">Registracija <i class="fa fa-sign-in"></i></button>
                             </div>
                             {{ Form::close() }}
                         </div>
@@ -43,25 +51,25 @@
         </div>
     </section> <!-- end main-content -->
 
-    <script>
+<script>
     jQuery(document).ready(function() {
-        $("#adminLogin").submit(function (event) {
+        $("#register").submit(function (event) {
             event.preventDefault();
 
-            //disable button click and show loader
-            $('button#loginSubmit').addClass('disabled');
-            $('#adminLoginLoad').css('visibility', 'visible').fadeIn();
+            //disable button click
+            $('button#registerSubmit').addClass('disabled');
 
             //get input fields values
             var values = {};
             $.each($(this).serializeArray(), function (i, field) {
                 values[field.name] = field.value;
             });
-            var token = $('#adminLogin > input[name="_token"]').val();
+            var token = $('#register > input[name="_token"]').val();
 
             //user output
             var outputMsg = $('#outputMsg');
             var errorMsg = "";
+            var successMsg = "";
 
             $.ajax({
                 type: 'post',
@@ -72,15 +80,23 @@
                 success: function (data) {
                     //check status of validation and query
                     if (data.status === 'success') {
-                        //enable button click and hide loader
-                        $('button#loginSubmit').removeClass('disabled');
-                        $('#adminLoginLoad').css('visibility', 'hidden').fadeOut();
+                        //enable button click
+                        $('button#registerSubmit').removeClass('disabled');
 
-                        //redirect to intended page
-                        window.location = "<?php echo $intended_url; ?>";
+                        //output message of success and redirect user
+                        successMsg = "<h3>Uspješno ste se registirali. Pričekajte dok Vas preusmjernimo na prijavu.</h3>";
+                        outputMsg.append(successMsg).addClass('successNotif').slideDown();
+                        setTimeout(function () {
+                            //redirect to intended page
+                            window.location = "<?php echo url('login'); ?>";
+                        }, 2000);
                     }
                     else {
-                        errorMsg = '<h3>' + data.errors + '</h3>';
+                        $.each(data.errors, function(index, value) {
+                            $.each(value, function(i){
+                                errorMsg += "<h3>" + value[i] + "</h3>";
+                            });
+                        });
                         outputMsg.append(errorMsg).addClass('warningNotif').slideDown();
 
                         //timer
@@ -96,9 +112,8 @@
 
                         function restoreNotification(){
                             outputMsg.fadeOut(1000, function(){
-                                //enable button click and hide loader
-                                $('button#loginSubmit').removeClass('disabled');
-                                $('#adminLoginLoad').css('visibility', 'hidden').fadeOut();
+                                //enable button click
+                                $('button#registerSubmit').removeClass('disabled');
 
                                 setTimeout(function () {
                                     outputMsg.empty().attr('class', 'notificationOutput');

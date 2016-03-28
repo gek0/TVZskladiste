@@ -35,4 +35,6 @@ Route::get('logout', function(){
  */
 Route::post('login', ['as' => 'loginPost', 'uses' => 'LoginController@checkLogin']);
 Route::get('login', ['as' => 'login', 'uses' => 'LoginController@showLogin']);
+Route::post('register', ['as' => 'registerPost', 'uses' => 'LoginController@checkRegister']);
+Route::get('register', ['as' => 'register', 'uses' => 'LoginController@showRegister']);
 Route::get('/', ['as' => 'home', 'uses' => 'PublicController@showHome']);

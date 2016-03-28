@@ -48,7 +48,20 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+	switch ($code){
+		case 403:
+			$exception_message = 'Nemate ovlasti pristupa.';
+			return Response::view('error', ['exception' => $exception_message, 'page_title' => $code], 403);
+			break;
+
+		case 503:
+			$exception_message = 'Poteškoće sa serverom. Pokušajte ponovo kasnije.';
+			return Response::view('error', ['exception' => $exception_message, 'page_title' => $code], 503);
+			break;
+
+		default:
+			Log::error($exception);
+	}
 });
 
 /*
@@ -64,7 +77,23 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return Response::make("Be right back!", 503);
+	return Response::make("Poteškoće sa serverom. Pokušajte ponovo kasnije.", 503);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Route Not Found Handler
+|--------------------------------------------------------------------------
+|
+| If no controller for intended route is found, send 404 error code
+|
+*/
+
+App::missing(function($exception)
+{
+	if(getenv('APP_ENV') == 'production') {
+		return Response::view('error', ['exception' => 'Stranica nije pronađena.', 'page_title' => '404'], 404);
+	}
 });
 
 /*
@@ -79,3 +108,11 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+require app_path().'/functions.php';
+require app_path().'/validators.php';
+
+/**
+ * @default 'page'
+ * change laravel paginator page name
+ */
+Paginator::setPageName('stranica');

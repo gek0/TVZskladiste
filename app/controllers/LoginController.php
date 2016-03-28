@@ -77,4 +77,73 @@ class LoginController extends BaseController{
                                 ]);
         }
     }
+
+    /**
+     * show register page
+     * @return mixed
+     */
+    public function showRegister()
+    {
+        if(Auth::guest()){
+            return View::make('public.register')->with(['page_title' => 'Registracija']);
+        }
+        else{
+            return Redirect::to('admin/pocetna');
+        }
+    }
+
+    /**
+     * user register data validation
+     * @return mixed
+     */
+    public function checkRegister()
+    {
+        //check if user is already authorized
+        if(Auth::user()){
+            return Redirect::to('admin/pocetna');
+        }
+
+        if (Request::ajax()) {
+
+            //get input data
+            $input_data = Input::get('formData');
+            $token = Input::get('_token');
+            $user_data = ['full_name' => $input_data['full_name'],
+                        'email' => $input_data['email'],
+                        'username' => $input_data['username'],
+                        'password' => $input_data['password'],
+                        'password_again' => $input_data['password_again']
+            ];
+
+            //check if csrf token is valid
+            if(Session::token() != $token){
+                return Response::json(['status' => 'error',
+                    'errors' => 'CSRF token is not valid.'
+                ]);
+            }
+
+            $validator = Validator::make($user_data, User::$rules, User::$messages);
+            //check validation results and save user if ok
+            if($validator->fails()){
+                return Response::json(['status' => 'error',
+                                        'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }
+            else{
+                $user = new User;
+                $user->full_name = e($user_data['full_name']);
+                $user->email = e($user_data['email']);
+                $user->username = e($user_data['username']);
+                $user->password = Hash::make($user_data['password']);
+                $user->save();
+
+                return Response::json(['status' => 'success']);
+            }
+        }
+        else{
+            return Response::json(['status' => 'error',
+                                    'errors' => 'Data not sent with Ajax.'
+            ]);
+        }
+    }    
 }

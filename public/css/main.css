@@ -149,6 +149,12 @@ img.thumbnail {
     background-color: rgba(251, 209, 97, 1);
 }
 
+hr{
+    background: rgba(51, 122, 183, .15);
+    border-top: 1px solid rgba(51, 122, 183, .15);
+    border-bottom: 1px solid rgba(51, 122, 183, .15);
+}
+
 
 /**
 *   section layout
@@ -225,6 +231,11 @@ img.thumbnail {
 /**
 *   misc
 */
+.loginMainBox{
+    width: 40%;
+    margin: 0 auto;
+}
+
 .btn-padded{
     padding: .75em 2em;
     font-size: 1.5em;
