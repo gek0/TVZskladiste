@@ -1,5 +1,24 @@
 <?php
 
+use Illuminate\Support\Facades\HTML;
+
+/**
+ * @param $route
+ * @param $text
+ * @param string $icon
+ * @return string
+ * smart navigation links
+ */
+HTML::macro('smartRoute_link', function($route, $text, $icon = '') {
+    if(Request::is($route) || Request::is($route.'/*')) {
+        $active = " class='active'";
+    }
+    else {
+        $active = "";
+    }
+    return '<li'.$active.'><a href="'.url($route).'">'.$icon.' '.$text.'</a></li>';
+});
+
 /**
  * @param $string
  * @return string

@@ -6,7 +6,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="hr" class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>TVZskladište :: {{ $page_title or 'Dobrodošli' }}</title>
+    <title>TVZskladište :: {{ $page_title or 'Administracija' }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="TVZ, skladište, upravljanje sadržajem, administracija, narudžbe">
@@ -25,7 +25,7 @@
     {{ HTML::script('js/jquery.min.js', ['charset' => 'utf-8']) }}
     {{ HTML::script('js/bootstrap.min.js', ['charset' => 'utf-8']) }}
     {{ HTML::script('js/modernizr.js', ['charset' => 'utf-8']) }}
-    {{ HTML::script('js/classie.min.js', ['charset' => 'utf-8']) }}    
+    {{ HTML::script('js/classie.min.js', ['charset' => 'utf-8']) }}
     <!--[if lt IE 9]>
     {{ HTML::script('js/html5shiv.min.js', ['charset' => 'utf-8']) }}
     {{ HTML::script('js/respond.min.js', ['charset' => 'utf-8']) }}
@@ -36,6 +36,7 @@
     {{ HTML::style('css/main.css') }}
 </head>
 <body>
+
 <!-- notifications -->
 <div class="notificationOutput" id="outputMsg">
     <div class="notificationTools" id="notifTool">
@@ -43,3 +44,32 @@
         <span id="notificationTimer"></span>
     </div>
 </div>
+
+<section class="content">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">TVZSkladište</span>
+            </div>
+            <ul class="nav navbar-nav">
+                {{ HTML::smartRoute_link('admin/pocetna', 'Početna', '<i class="fa fa-home"></i>') }}
+                {{ HTML::smartRoute_link('admin/pocetna', 'Proizvodi', '<i class="fa fa-list"></i>') }}
+                {{ HTML::smartRoute_link('admin/pocetna', 'Moje narudžbe', '<i class="fa fa-shopping-cart"></i>') }}
+                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/pocetna', 'Kategorije', '<i class="fa fa-database"></i>') }} @endif
+                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/pocetna', 'Narudžbe', '<i class="fa fa-shopping-cart"></i>') }} @endif
+                @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link('admin/pocetna', 'Stanje', '<i class="fa fa-line-chart"></i>') }} @endif
+                @if(Auth::user()->group->id >= 4) {{ HTML::smartRoute_link('admin/korisnici', 'Korisnici', '<i class="fa fa-users"></i>') }} @endif
+            </ul>
+        </div>
+    </nav>
+
+    <div class="user-info">
+        <span class="pull-left">
+            Dobrodošao nazad <b>{{ Auth::user()->username }}</b> (<i>{{ Auth::user()->group->group_name }}</i>)
+        </span>
+        <span class="pull-right">
+            <a href="{{ url('logout') }}">
+                <button class="btn btn-primary">Odjava <i class="fa fa-sign-out"></i></button>
+            </a>
+        </span>
+    </div>

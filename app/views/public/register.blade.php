@@ -33,7 +33,8 @@
                                 {{ Form::password('password_again', ['class' => 'form-control', 'placeholder' => 'Ponovite lozinku', 'id' => 'password_again', 'required']) }}
                             </div>
 
-                            <br>
+                            <div class="space"></div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-padded" id="registerSubmit">Registracija <i class="fa fa-sign-in"></i></button>
                             </div>

@@ -8,7 +8,7 @@
             <h3>{{{ $exception }}}</h3>
 
             <div class="space"></div>
-            <a href="{{ URL::route('home') }}"><button class="btn btn-primary">Povratak na početnu</button></a>
+            <a href="{{ URL::previous() }}"><button class="btn btn-primary "><i class="fa fa-chevron-left"></i> Povratak na prethodnu stranicu</button></a>
         </div>
     </section> <!-- end section-inner -->
 

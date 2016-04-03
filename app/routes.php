@@ -18,8 +18,17 @@ Route::group(['before' => 'auth'], function() {
 	Route::get('admin', function(){
 		return Redirect::to('admin/pocetna');
 	});
-	Route::get('admin/pocetna', ['as' => 'admin', 'uses' => 'AdminController@showHome']);
 
+	Route::group(['prefix' => 'admin'], function() {
+		Route::get('pocetna', ['as' => 'admin', 'uses' => 'AdminController@showHome']);
+
+
+		// users CRUD
+		Route::get('korisnici', ['as' => 'korisnici', 'uses' => 'AdminController@showUsers']);
+		Route::get('korisnici/uredi/{id}', ['as' => 'korisnici-edit', 'uses' => 'AdminController@showUserEditForm'])->where(['id' => '[\d]+']);
+		Route::post('korisnici/uredi/', ['as' => 'korisnici-edit-post', 'uses' => 'AdminController@editUser']);
+		Route::get('korisnici/obrisi/{id}', ['as' => 'korisnici-delete', 'uses' => 'AdminController@deleteUser'])->where(['id' => '[\d]+']);
+	});
 });
 
 /**

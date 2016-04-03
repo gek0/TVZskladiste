@@ -25,7 +25,10 @@
                                     {{ Form::checkbox('rememberMe', 1, true, ['id' => 'rememberMe']) }}
                                     {{ Form::label('rememberMe', 'Zapamti me?', ['class' => 'checkbox-inline', 'id' => 'check-adjust', 'checked']) }}
                                 </div>
-                            </div><br>
+                            </div>
+
+                            <div class="space"></div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-padded" id="loginSubmit">Prijava <i class="fa fa-sign-in"></i></button>
                             </div>
