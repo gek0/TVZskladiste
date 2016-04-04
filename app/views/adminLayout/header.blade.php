@@ -53,11 +53,11 @@
             </div>
             <ul class="nav navbar-nav">
                 {{ HTML::smartRoute_link('admin/pocetna', 'Početna', '<i class="fa fa-home"></i>') }}
-                {{ HTML::smartRoute_link('admin/pocetna', 'Proizvodi', '<i class="fa fa-list"></i>') }}
-                {{ HTML::smartRoute_link('admin/pocetna', 'Moje narudžbe', '<i class="fa fa-shopping-cart"></i>') }}
-                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/pocetna', 'Kategorije', '<i class="fa fa-database"></i>') }} @endif
-                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/pocetna', 'Narudžbe', '<i class="fa fa-shopping-cart"></i>') }} @endif
-                @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link('admin/pocetna', 'Stanje', '<i class="fa fa-line-chart"></i>') }} @endif
+                {{ HTML::smartRoute_link('admin/proizvodi', 'Proizvodi', '<i class="fa fa-list"></i>') }}
+                {{ HTML::smartRoute_link('admin/moje-narudzbe', 'Moje narudžbe', '<i class="fa fa-shopping-cart"></i>') }}
+                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/kategorije', 'Kategorije', '<i class="fa fa-database"></i>') }} @endif
+                @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/narudzbe', 'Narudžbe', '<i class="fa fa-shopping-cart"></i>') }} @endif
+                @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link('admin/stanje', 'Stanje', '<i class="fa fa-line-chart"></i>') }} @endif
                 @if(Auth::user()->group->id >= 4) {{ HTML::smartRoute_link('admin/korisnici', 'Korisnici', '<i class="fa fa-users"></i>') }} @endif
             </ul>
         </div>

@@ -22,7 +22,7 @@ class LoginController extends BaseController{
 
             return View::make('public.login')->with(['intended_url' => $intended_url,
                                                         'page_title' => 'Prijava'
-                                                    ]);
+            ]);
         }
         else{
             return Redirect::to('admin/pocetna');
@@ -53,8 +53,8 @@ class LoginController extends BaseController{
             //check if csrf token is valid
             if(Session::token() != $token){
                 return Response::json(['status' => 'error',
-                                        'errors' => 'CSRF token is not valid.'
-                                    ]);
+                                        'errors' => 'Nevažeći CSRF token!'
+                ]);
             }
 
             $remember_me = false;
@@ -68,13 +68,13 @@ class LoginController extends BaseController{
             else {
                 return Response::json(['status' => 'error',
                                         'errors' => 'Neispravno korisničko ime ili lozinka.'
-                                    ]);
+                ]);
             }
         }
         else{
             return Response::json(['status' => 'error',
-                                    'errors' => 'Data not sent with Ajax.'
-                                ]);
+                                    'errors' => 'Podaci nisu poslani Ajax-om!'
+            ]);
         }
     }
 
@@ -118,7 +118,7 @@ class LoginController extends BaseController{
             //check if csrf token is valid
             if(Session::token() != $token){
                 return Response::json(['status' => 'error',
-                    'errors' => 'CSRF token is not valid.'
+                                        'errors' => 'Nevažeći CSRF token!'
                 ]);
             }
 
@@ -142,7 +142,7 @@ class LoginController extends BaseController{
         }
         else{
             return Response::json(['status' => 'error',
-                                    'errors' => 'Data not sent with Ajax.'
+                                    'errors' => 'Podaci nisu poslani Ajax-om!'
             ]);
         }
     }    

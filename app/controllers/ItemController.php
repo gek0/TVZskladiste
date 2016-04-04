@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends BaseController{
+class ItemController extends BaseController{
 
     /**
      * CSRF validation on requests
@@ -11,16 +11,12 @@ class AdminController extends BaseController{
     }
 
     /**
-     * show admin homepage
+     * show items
      * @return mixed
      */
-    public function showHome()
+    public function showItems()
     {
-        return View::make('admin.index');
+        return View::make('admin.items.items');
     }
 
-    public function showStatus()
-    {
-        return View::make('admin.status');
-    }
 }

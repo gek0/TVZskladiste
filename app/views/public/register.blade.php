@@ -11,7 +11,7 @@
                     <div class="login-box clearfix">
                         <hr>
                         <div class="login-form">
-                            {{ Form::open(['url' => 'register', 'role' => 'form', 'id' => 'register']) }}
+                            {{ Form::open(['route' => 'registerPost', 'role' => 'form', 'id' => 'register']) }}
                             <div class="form-group-login">
                                 {{ Form::label('full_name', 'Ime i prezime:') }}
                                 {{ Form::text('full_name', null, ['class' => 'form-control', 'placeholder' => 'Ime i prezime', 'id' => 'full_name', 'required']) }}
@@ -29,7 +29,7 @@
                                 {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Lozinka', 'id' => 'password', 'required']) }}
                             </div>
                             <div class="form-group-login">
-                                {{ Form::label('password_again', 'Ponovite lozinku :') }}
+                                {{ Form::label('password_again', 'Ponovite lozinku:') }}
                                 {{ Form::password('password_again', ['class' => 'form-control', 'placeholder' => 'Ponovite lozinku', 'id' => 'password_again', 'required']) }}
                             </div>
 

@@ -33,7 +33,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 							'password_again' => 'required|same:password'
 	];
 
-	public static $rulesLessStrict = ['full_name' => 'required|alpha_num|between:3,50',
+	public static $rulesLessStrict = ['full_name' => 'required|alpha_spaces_dash|between:3,50',
 									'email' => 'required|email|between:5,50',
 									'username' => 'required|alpha_num|between:3,20',
 									'password' => 'between:5,40',
@@ -44,7 +44,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * validation error messages
 	 */
 	public static $messages = ['full_name.required' => 'Ime i prezime ime je obavezno.',
-								'full_name.alpha_num' => 'Ime i prezime se može sastojati samo od slova i brojeva.',
+								'full_name.alpha_spaces_dash' => 'Ime i prezime se može sastojati samo od slova, brojeva i razmaka.',
 								'full_name.between' => 'Ime i prezime mora biti duljine od 3 do 20 znakova.',
 								'email.required' => 'E-mail adresa je obavezna.',
 								'email.email' => 'Unjeta e-mail adresa nije ispravna.',

@@ -11,7 +11,7 @@
                     <div class="login-box clearfix">
                         <hr>
                         <div class="login-form">
-                            {{ Form::open(['url' => 'login', 'role' => 'form', 'id' => 'adminLogin']) }}
+                            {{ Form::open(['route' => 'loginPost', 'role' => 'form', 'id' => 'adminLogin']) }}
                             <div class="form-group-login">
                                 {{ Form::label('username', 'Korisničko ime:') }}
                                 {{ Form::text('username', null, ['class' => 'form-control', 'placeholder' => 'Korisničko ime', 'id' => 'username', 'required']) }}
