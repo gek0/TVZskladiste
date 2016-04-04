@@ -61,8 +61,9 @@ Route::get('logout', function(){
  * API area
  */
 Route::group(['prefix' => 'api'], function() {
+	Route::get('/', ['as' => 'api', 'uses' => 'ApiController@showApi']);
 	Route::get('users', ['as' => 'apiUsers', 'uses' => 'ApiController@getUsers']);
-
+	Route::get('categories', ['as' => 'apiCategories', 'uses' => 'ApiController@getCategories']);
 });
 
 /**
