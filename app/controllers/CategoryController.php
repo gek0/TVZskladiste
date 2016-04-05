@@ -100,7 +100,7 @@ class CategoryController extends BaseController{
                 return Redirect::to('admin/kategorije')->withErrors('Nevažeći CSRF token!');
             }
 
-            //find if user exists
+            //find if category exists
             $category = Category::find($category_id);
 
             if($category == NULL){

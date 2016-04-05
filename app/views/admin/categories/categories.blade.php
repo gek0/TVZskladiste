@@ -5,7 +5,7 @@
 <div class="well text-center">
     <button class="btn btn-primary btn-padded" id="show-add">Nova kategorija</button>
 
-    <div id="add-category" class="none space">
+    <div id="add-content" class="none space">
         <div class="container-fluid">
             <div class="row text-center">
                 {{ Form::open(['route' => 'category-add-post', 'role' => 'form', 'id' => 'addCategory']) }}

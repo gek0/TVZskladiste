@@ -24,6 +24,10 @@ Route::group(['before' => 'auth'], function() {
 
 		// items CRUD
 		Route::get('proizvodi', ['as' => 'items', 'uses' => 'ItemController@showItems']);
+		Route::post('proizvodi/novi', ['as' => 'items-add-post', 'uses' => 'ItemController@addItem']);
+		Route::post('proizvodi/uredi', ['as' => 'items-edit-post', 'uses' => 'ItemController@editItem']);
+		Route::get('proizvodi/uredi/{id}', ['as' => 'items-edit', 'uses' => 'ItemController@showItemEditForm'])->where(['id' => '[\d]+']);
+		Route::get('proizvodi/obrisi/{id}', ['as' => 'items-delete', 'uses' => 'ItemController@deleteItem'])->where(['id' => '[\d]+']);
 
 		// user orders CRUD
 		Route::get('moje-narudzbe', ['as' => 'my-orders', 'uses' => 'OrderController@showMyOrders']);
@@ -64,6 +68,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('/', ['as' => 'api', 'uses' => 'ApiController@showApi']);
 	Route::get('users', ['as' => 'apiUsers', 'uses' => 'ApiController@getUsers']);
 	Route::get('categories', ['as' => 'apiCategories', 'uses' => 'ApiController@getCategories']);
+	Route::get('items', ['as' => 'apiItems', 'uses' => 'ApiController@getItems']);
 });
 
 /**

@@ -6,7 +6,7 @@
 jQuery(document).ready(function(){
     // category add form
     $("button#show-add").click(function(){
-        $("div#add-category").toggle(500);
+        $("div#add-content").toggle(500);
     });
 
 
