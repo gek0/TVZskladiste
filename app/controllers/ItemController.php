@@ -18,7 +18,7 @@ class ItemController extends BaseController
     public function showItems()
     {
         //grab all items
-        $items_data = Item::orderBy('item_name', 'ASC')->get();
+        $items_data = Item::orderBy('item_name', 'ASC')->paginate(10);
 
         //grab all categories
         $item_categories = Category::orderBy('id')->lists('category_name', 'id');
@@ -62,7 +62,12 @@ class ItemController extends BaseController
                 $item->item_price = e($form_data['item_price']);
                 $item->item_availability = e($form_data['item_availability']);
                 $item->category_id = e($form_data['category_id']);
-                $item->item_quantity = e($form_data['item_quantity']);
+                if(e($form_data['item_availability']) == 1){
+                    $item->item_quantity = e($form_data['item_quantity']);
+                }
+                else{
+                    $item->item_quantity = 0;
+                }
                 $item->save();
 
                 return Redirect::to('admin/proizvodi')->with(['success' => 'Proizvod je uspješno dodan!']);
@@ -73,6 +78,10 @@ class ItemController extends BaseController
         }
     }
 
+    /**
+     * edit selected item
+     * @return mixed
+     */
     public function editItem()
     {
         if(Auth::user()->group->id >= 2){

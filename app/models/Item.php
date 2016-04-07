@@ -21,6 +21,7 @@ class Item extends Eloquent{
     public static $rules = ['item_name' => 'required|between:1,255|unique:items',
                             'item_price' => 'required',
                             'item_availability' => 'required',
+                            'item_quantity' => 'integer',
                             'category_id' => 'integer',
     ];
 
@@ -41,6 +42,7 @@ class Item extends Eloquent{
                                 'item_name.unique' => 'Proizvod s istim imenom već postoji.',
                                 'item_price.required' => 'Cijena proizvoda je obavezna.',
                                 'item_availability.required' => 'Status proizvoda je obavezno polje.',
+                                'item_quantity.integer' => 'Količina proizvoda mora biti cijeli broj',
                                 'category_id.integer' => 'Kategorija proizvoda je obavezna.',
     ];
 

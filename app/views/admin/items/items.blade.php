@@ -45,7 +45,7 @@
     </div>
 @endif
 
-@if(count($items_data) > 0)
+@if(count($items_data->all()) > 0)
     <table class="table table-bordered table-striped table-hover text-center">
         <thead>
         <tr>
@@ -57,7 +57,7 @@
             @if(Auth::user()->group->id >= 2)
                 <td>Opcije <i class="fa fa-cog"></i></td>
             @endif
-        </tr>
+            <td>Košarica <i class="fa fa-shopping-cart"></i></td>
         </thead>
         <tbody>
         @foreach($items_data as $item)
@@ -91,10 +91,21 @@
                         </a>
                     </td>
                 @endif
+                <td>
+                    @if($item->item_availability == 1)
+                        <button id="add-to-cart-{{ $item->id }}" class="btn btn-info"><i class="fa fa-plus"></i></button>
+                    @else
+                        <button class="btn btn-disabled" disabled><i class="fa fa-plus"></i></button>
+                    @endif
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+    <div class="pagination-layout pagination-centered">
+        {{ $items_data->appends(Request::except('stranica'))->links() }}
+    </div> <!-- end pagination -->
 @else
     <h3 class="text-center">Trenutno nema proizvoda.</h3>
 @endif

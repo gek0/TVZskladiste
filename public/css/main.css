@@ -192,40 +192,6 @@ hr{
     box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 }
 
-.pagination > li > a, .pagination > li > span
-.pagination > li.disabled > a, .pagination > li.disabled  > span{
-    border: 1px solid rgba(251, 209, 97, 0.25);
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover,
-.pagination > li.disabled > a:focus, .pagination > li.disabled > a:hover, .pagination > li.disabled > span:focus, .pagination > li.disabled > span:hover{
-    border: 1px solid rgba(251, 209, 97, .25);
-    background-color: rgba(0, 0, 0, .55);
-}
-
-.pagination-layout ul.pagination a { color: #FBD161; }
-
-.pagination > .disabled > a,
-.pagination > .disabled > a:focus,
-.pagination > .disabled > a:hover,
-.pagination > .disabled > span,
-.pagination > .disabled > span:focus,
-.pagination > .disabled > span:hover {
-    color: #FBD161;
-}
-
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover,
-.pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-    background-color: rgba(251, 209, 97, .75);
-    border-color: rgba(251, 209, 97, .55);
-}
-
-
 /**
 *   misc
 */
@@ -352,7 +318,7 @@ div.thumbnail{
 */
 section.content,
 footer{
-    width: 75%;
+    width: 85%;
     height: auto;
     margin: 2em auto;
     border: 0;
