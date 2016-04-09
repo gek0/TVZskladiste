@@ -48,10 +48,10 @@
 @if(count($items_data->all()) > 0)
     <table class="table table-bordered table-striped table-hover text-center">
         <thead>
-        <tr>
+        <tr style="font-weight: bold;">
             <td>Ime proizvoda</td>
-            <td>kategorija</td>
-            <td>Cijena proizvoda</td>
+            <td>Kategorija</td>
+            <td>Cijena</td>
             <td>Dostupno količina</td>
             <td>Status</td>
             @if(Auth::user()->group->id >= 2)
@@ -91,11 +91,18 @@
                         </a>
                     </td>
                 @endif
-                <td>
+                <td style="width: 8%;">
                     @if($item->item_availability == 1)
-                        <button id="add-to-cart-{{ $item->id }}" class="btn btn-info"><i class="fa fa-plus"></i></button>
+                        {{ Form::open(['url' => route('cart-add', $item->id), 'method' => 'get', 'role' => 'form', 'id' => 'addToOrder']) }}
+                            <div class="form-group">
+                                {{ Form::number('quantity', 1, ['class' => 'form-control', 'placeholder' => 'Količina', 'id' => 'quantity', 'required']) }}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info"><i class="fa fa-check"></i></button>
+                            </div>
+                        {{ Form::close() }}
                     @else
-                        <button class="btn btn-disabled" disabled><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-disabled" disabled><i class="fa fa-minus"></i></button>
                     @endif
                 </td>
             </tr>

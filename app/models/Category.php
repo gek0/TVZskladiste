@@ -38,7 +38,7 @@ class Category extends Eloquent{
      */
     public function items()
     {
-        return $this->belongsToMany('Item');
+        return $this->hasMany('Item');
     }
 
 }

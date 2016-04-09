@@ -52,3 +52,24 @@ function string_like_slug($string){
 function imageAlt($image_name){
     return substr($image_name, 0, -4);
 }
+
+
+class RecursiveArrayObject extends ArrayObject
+{
+    /**
+     * convert object to array
+     * @return array
+     */
+    function getArrayCopy()
+    {
+        $resultArray = parent::getArrayCopy();
+        foreach($resultArray as $key => $val) {
+            if (!is_object($val)) {
+                continue;
+            }
+            $o = new RecursiveArrayObject($val);
+            $resultArray[$key] = $o->getArrayCopy();
+        }
+        return $resultArray;
+    }
+}

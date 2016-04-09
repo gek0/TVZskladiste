@@ -31,6 +31,11 @@ Route::group(['before' => 'auth'], function() {
 
 		// user orders CRUD
 		Route::get('moje-narudzbe', ['as' => 'my-orders', 'uses' => 'OrderController@showMyOrders']);
+		Route::get('moje-narudzbe/ispis/{id}', ['as' => 'order-print', 'uses' => 'OrderController@showMyOrderPrint'])->where(['id' => '[\d]+']);
+		Route::get('moje-narudzbe/pregled/{id}', ['as' => 'order-view', 'uses' => 'OrderController@showArchivedOrder'])->where(['id' => '[\d]+']);
+		Route::get('kosarica/dodaj/{id}', ['as' => 'cart-add', 'uses' => 'OrderController@addToCart'])->where(['id' => '[\d]+']);
+		Route::get('kosarica/obrisi/{id}', ['as' => 'cart-item-delete', 'uses' => 'OrderController@deleteCartItem'])->where(['id' => '[\d]+']);
+		Route::post('kosarica/potvrdi-narudzbu', ['as' => 'cart-accept-post', 'uses' => 'OrderController@acceptCartOrder']);
 
 		// category CRUD
 		Route::get('kategorije', ['as' => 'category-list', 'uses' => 'CategoryController@showCategories']);
