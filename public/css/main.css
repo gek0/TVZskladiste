@@ -204,6 +204,10 @@ hr{
     padding: .75em 2em;
     font-size: 1.5em;
 }
+.btn-padded-smaller{
+    padding: .15em 1em;
+    font-size: 1.1em;
+}
 
 span.size1{ font-size: 10px; }
 span.size2{ font-size: 12px; }
@@ -270,6 +274,13 @@ div.thumbnail{
 
 .pb-clear { padding-bottom: 0; }
 
+
+.content_narrow{
+    width: 45%;
+    height: auto;
+    padding: 1em;
+    margin: 1em auto;
+}
 
 /**
 *   notifications

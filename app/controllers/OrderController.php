@@ -133,6 +133,13 @@ class OrderController extends BaseController{
             return Redirect::back()->withErrors('Proizvod sa zadanim ID-em ne postoji!');
         }
         else{
+            // restore item storage quantity and availability
+            $item_storage = Item::find($item->item_id);
+            $item_storage->item_quantity += $item->quantity;
+            $item_storage->item_availability = 1;
+            $item_storage->save();
+
+            // delete item from cart and order
             $item->delete();
 
             return Redirect::back()->with(['success' => 'Proizvod je uspješno obrisan s narudžbe!']);

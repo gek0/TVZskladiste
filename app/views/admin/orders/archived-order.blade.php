@@ -23,10 +23,10 @@
                         {{ $item->item['category']['category_name'] }}
                     </td>
                     <td>
-                        {{ $item->item['item_price'] }} KN
+                        {{ number_format($item->item['item_price'], 0 , ',', '.') }} KN
                     </td>
                     <td>
-                        {{ $item->quantity }}
+                        {{ number_format($item->quantity, 0 , ',', '.') }}
                     </td>
                 </tr>
             @endforeach
@@ -41,7 +41,7 @@
                 Datum narudžbe: <b>{{ date('d.m.Y. \u H:i\h', strtotime($order_data->order_date)) }}</b>
             </h4>
             <h4>
-                Ukupni trošak: <b>{{ $order_data->order_price }} KN</b>
+                Ukupni trošak: <b>{{ number_format($order_data->order_price, 0 , ',', '.') }} KN</b>
             </h4>
         </div>
     </div>

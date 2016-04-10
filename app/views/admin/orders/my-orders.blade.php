@@ -8,7 +8,7 @@
     <div class="well list-group">
         @foreach($archived_orders as $archive)
             <a href="{{ route('order-view', $archive->id) }}" class="list-group-item">
-                <span class="badge">{{ $archive->order_price }} KN</span>
+                <span class="badge">{{ number_format($archive->order_price, 0 , ',', '.') }} KN</span>
                 <b>Narudžba ID - {{ $archive->id }}</b> ({{ date('d.m.Y. \u H:i\h', strtotime($archive->order_date)) }})
             </a>
         @endforeach
@@ -41,10 +41,10 @@
                     {{ $item->item['category']['category_name'] }}
                 </td>
                 <td>
-                    {{ $item->item['item_price'] }} KN
+                    {{ number_format($item->item['item_price'], 0 , ',', '.') }} KN
                 </td>
                 <td>
-                    {{ $item->quantity }}
+                    {{ number_format($item->quantity, 0 , ',', '.') }}
                 </td>
                 <td>
                     <a href="{{ route('cart-item-delete', $item->id) }}">
@@ -58,7 +58,7 @@
 
     <div class="well text-center">
         <h4>
-            Ukupni trošak: <b>{{ $order_total_price }} KN</b>
+            Ukupni trošak: <b>{{ number_format($order_total_price, 0 , ',', '.') }} KN</b>
         </h4>
 
         {{ Form::open(['route' => 'cart-accept-post', 'role' => 'form', 'id' => 'addToOrder']) }}

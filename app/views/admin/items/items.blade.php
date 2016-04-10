@@ -69,10 +69,10 @@
                     {{ $item->category->category_name }}
                 </td>
                 <td>
-                    {{ $item->item_price }} KN
+                    {{ number_format($item->item_price, 0 , ',', '.') }} KN
                 </td>
                 <td>
-                    {{ $item->item_quantity }}
+                    {{ number_format($item->item_quantity, 0 , ',', '.') }}
                 </td>
                 <td>
                     @if($item->item_availability == 1)
