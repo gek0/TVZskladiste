@@ -1,17 +1,20 @@
 @include('adminLayout.header')
 
-<div class="panel panel-info">
+<div id="fakeloader"></div>
+
+<div class="panel panel-primary">
     <div class="panel-heading">
         <h1>Narudžba ID - {{ $order_data->id }}</h1>
     </div>
-    <div class="panel-body" id="print-content-data">
+    <div class="panel-body" id="archived-order">
         <table class="table table-bordered table-striped table-hover text-center">
             <thead>
-            <tr style="font-weight: bold;">
-                <td>Ime proizvoda</td>
-                <td>Kategorija</td>
-                <td>Cijena</td>
-                <td>Količina</td>
+                <tr style="font-weight: bold;">
+                    <td>Ime proizvoda</td>
+                    <td>Kategorija</td>
+                    <td>Cijena</td>
+                    <td>Količina</td>
+                </tr>
             </thead>
             <tbody>
             @foreach($items_data as $item)
@@ -48,7 +51,7 @@
 </div>
 
 <div class="text-center space">
-    <a href="{{ route('order-print', $order_data->id) }}">
+    <a href="{{ route('order-print', $order_data->id) }}" target="_blank">
         <button class="btn btn-success btn-padded">Ispiši narudžbu <i class="fa fa-print"></i></button>
     </a>
 </div>

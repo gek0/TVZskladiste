@@ -8,7 +8,7 @@
     <div class="well list-group">
         @foreach($archived_orders as $archive)
             <a href="{{ route('order-view', $archive->id) }}" class="list-group-item">
-                <span class="badge">{{ number_format($archive->order_price, 0 , ',', '.') }} KN</span>
+                <span class="pull-right label label-primary btn-padded-smaller">{{ number_format($archive->order_price, 0 , ',', '.') }} KN</span>
                 <b>Narudžba ID - {{ $archive->id }}</b> ({{ date('d.m.Y. \u H:i\h', strtotime($archive->order_date)) }})
             </a>
         @endforeach

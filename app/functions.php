@@ -20,6 +20,23 @@ HTML::macro('smartRoute_link', function($route, $text, $icon = '') {
 });
 
 /**
+ * @param $route
+ * @param $text
+ * @param string $icon
+ * @return string
+ * smart navigation links / opening in new tab
+ */
+HTML::macro('smartRoute_link_new_tab', function($route, $text, $icon = '') {
+    if(Request::is($route) || Request::is($route.'/*')) {
+        $active = " class='active'";
+    }
+    else {
+        $active = "";
+    }
+    return '<li'.$active.'><a href="'.url($route).'" target="_blank">'.$icon.' '.$text.'</a></li>';
+});
+
+/**
  * @param $string
  * @return string
  * safe name, no croatian letters

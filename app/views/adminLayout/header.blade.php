@@ -58,7 +58,7 @@
                 @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/kategorije', 'Kategorije', '<i class="fa fa-database"></i>') }} @endif
                 @if(Auth::user()->group->id >= 2) {{ HTML::smartRoute_link('admin/narudzbe', 'Narudžbe', '<i class="fa fa-shopping-cart"></i>') }} @endif
                 @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link('admin/stanje', 'Stanje', '<i class="fa fa-line-chart"></i>') }} @endif
-                @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link('api', 'API', '<i class="fa fa-exchange"></i>') }} @endif
+                @if(Auth::user()->group->id >= 3) {{ HTML::smartRoute_link_new_tab('api', 'API', '<i class="fa fa-exchange"></i>') }} @endif
                 @if(Auth::user()->group->id >= 4) {{ HTML::smartRoute_link('admin/korisnici', 'Korisnici', '<i class="fa fa-users"></i>') }} @endif
             </ul>
         </div>

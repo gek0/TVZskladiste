@@ -218,7 +218,7 @@ class OrderController extends BaseController{
     public function showMyOrderPrint($id = null)
     {
         // check if order exists
-        /*$order_data = Order::find($id);
+        $order_data = Order::find($id);
 
         if($order_data == NULL){
             return Redirect::to('admin/moje-narudzbe')->withErrors('Narudžba ne postoji!');
@@ -229,13 +229,29 @@ class OrderController extends BaseController{
                 // get all items in order
                 $items_data = ItemCart::where('order_id', $order_data->id)->get();
 
-                $pdf = PDF::loadView('admin.orders.archived-order', $data);
-                return $pdf->download('Narudžba_ID_'.$order_data->id.'.pdf');
+                // merge objects to array
+                $data = [];
+                $data['order_data'] = $order_data;
+
+                // grab item data to array for each item
+                $items_full_data = [];
+                foreach($items_data as $item){
+                    $current_item = Item::find($item->item_id);
+
+                    $items_full_data[$item->id]['item_name'] = $current_item->item_name;
+                    $items_full_data[$item->id]['category_name'] = $current_item->category->category_name;
+                    $items_full_data[$item->id]['item_price'] = $current_item->item_price;
+                    $items_full_data[$item->id]['item_quantity'] = $item->quantity;
+                }
+                $data['items_data'] = $items_full_data;
+
+                $pdf = PDF::loadView('admin.orders.print-order', ['data' => $data]);
+                return $pdf->download('Narudzba_ID_'.$data['order_data']['id'].'.pdf');
             }
             else{
                 App::abort(403);
             }
-        }*/
+        }
     }
 
 }
