@@ -16,10 +16,15 @@ class CategoryController extends BaseController{
      */
     public function showCategories()
     {
-        //grab all categories
-        $categories_data = Category::orderBy('category_name', 'ASC')->get();
+        if(Auth::user()->group_id >= 2){
+            //grab all categories
+            $categories_data = Category::orderBy('category_name', 'ASC')->get();
 
-        return View::make('admin.categories.categories')->with(['categories_data' => $categories_data]);
+            return View::make('admin.categories.categories')->with(['categories_data' => $categories_data]);
+        }
+        else{
+            App::abort(403);
+        }
     }
 
     /**
@@ -28,7 +33,7 @@ class CategoryController extends BaseController{
      */
     public function addCategory()
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //get input data
             $input_data = Input::all();
             $token = Input::get('_token');
@@ -65,7 +70,7 @@ class CategoryController extends BaseController{
      */
     public function showCategoryEditForm($id = null)
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //find if category exists
             $category = Category::find($id);
 
@@ -87,7 +92,7 @@ class CategoryController extends BaseController{
      */
     public function editCategory()
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //get input data
             $input_data = Input::all();
             $token = Input::get('_token');
@@ -133,7 +138,7 @@ class CategoryController extends BaseController{
      */
     public function deleteCategory($id = null)
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //find if category exists
             $category = Category::find($id);
 

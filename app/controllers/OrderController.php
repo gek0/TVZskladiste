@@ -16,8 +16,18 @@ class OrderController extends BaseController{
      */
     public function showAllUsersOrders()
     {
-        if(Auth::user()->group->id >= 2){
-            return View::make('admin.orders.orders');
+        if(Auth::user()->group_id >= 2){
+            // get all finished orders
+            $orders_data = Order::where('order_status', 1)->orderBy('id', 'DESC')->get();
+
+            // add user full name to data array
+            foreach($orders_data as $order){
+                //find user
+                $user = User::find($order->user_id);
+                $order['user_full_name'] = $user->full_name;
+            }
+
+            return View::make('admin.orders.orders')->with(['orders_data' => $orders_data]);
         }
         else{
             App::abort(403);
@@ -127,22 +137,62 @@ class OrderController extends BaseController{
      */
     public function deleteCartItem($id = null)
     {
-        $item = ItemCart::find($id);
+        if(Auth::user()->group->id < 2) {
+            $item = ItemCart::find($id);
 
-        if($item == NULL){
-            return Redirect::back()->withErrors('Proizvod sa zadanim ID-em ne postoji!');
+            if ($item == NULL) {
+                return Redirect::back()->withErrors('Proizvod sa zadanim ID-em ne postoji!');
+            } else {
+                // restore item storage quantity and availability
+                $item_storage = Item::find($item->item_id);
+                $item_storage->item_quantity += $item->quantity;
+                $item_storage->item_availability = 1;
+                $item_storage->save();
+
+                // delete item from cart and order
+                $item->delete();
+
+                return Redirect::back()->with(['success' => 'Proizvod je uspješno obrisan s narudžbe!']);
+            }
         }
         else{
-            // restore item storage quantity and availability
-            $item_storage = Item::find($item->item_id);
-            $item_storage->item_quantity += $item->quantity;
-            $item_storage->item_availability = 1;
-            $item_storage->save();
+            App::abort(403);
+        }
+    }
 
-            // delete item from cart and order
-            $item->delete();
+    /**
+     * delete item from order by admin
+     * @param null $id
+     * @return mixed
+     */
+    public function deleteCartItemAdmin($id = null)
+    {
+        if(Auth::user()->group_id >= 2) {
+            $item = ItemCart::find($id);
 
-            return Redirect::back()->with(['success' => 'Proizvod je uspješno obrisan s narudžbe!']);
+            if($item == NULL){
+                return Redirect::back()->withErrors('Proizvod sa zadanim ID-em ne postoji!');
+            }
+            else{
+                // restore item storage quantity and availability
+                $item_storage = Item::find($item->item_id);
+                $item_storage->item_quantity += $item->quantity;
+                $item_storage->item_availability = 1;
+                $item_storage->save();
+
+                // update new price on order
+                $order = Order::find($item->order_id);
+                $order->order_price -= ($item_storage->item_price * $item->quantity);
+                $order->save();
+
+                // delete item from cart and order
+                $item->delete();
+
+                return Redirect::back()->with(['success' => 'Proizvod je uspješno obrisan s narudžbe!']);
+            }
+        }
+        else{
+            App::abort(403);
         }
     }
 
@@ -211,6 +261,60 @@ class OrderController extends BaseController{
     }
 
     /**
+     * show archived order to admin
+     * @param null $id
+     * @return mixed
+     */
+    public function showArchivedOrderAdmin($id = null)
+    {
+        if(Auth::user()->group_id >= 2) {
+            // check if order exists
+            $order_data = Order::find($id);
+
+            if ($order_data == NULL) {
+                return Redirect::to('admin/moje-narudzbe')->withErrors('Narudžba ne postoji!');
+            } else {
+                // allow only users with enough privileges or owner of order
+                if (Auth::user()->group->id >= 2) {
+                    // get all items in order
+                    $items_data = ItemCart::where('order_id', $order_data->id)->get();
+
+                    // merge objects to array
+                    $data = [];
+                    //$data['order_data'] = $order_data;
+
+                    // grab users full name for the order
+                    $orders_full_data = [];
+                    $user = User::find($order_data->user_id);
+                    $orders_full_data = $order_data;
+                    $orders_full_data['user_full_name'] = $user->full_name;
+                    $data['order_data'] = $orders_full_data;
+
+                    // grab item data to array for each item
+                    $items_full_data = [];
+                    foreach ($items_data as $item) {
+                        $current_item = Item::find($item->item_id);
+
+                        $items_full_data[$item->id]['item_cart_id'] = $item->id;
+                        $items_full_data[$item->id]['item_name'] = $current_item->item_name;
+                        $items_full_data[$item->id]['category_name'] = $current_item->category->category_name;
+                        $items_full_data[$item->id]['item_price'] = $current_item->item_price;
+                        $items_full_data[$item->id]['item_quantity'] = $item->quantity;
+                    }
+                    $data['items_data'] = $items_full_data;
+
+                    return View::make('admin.orders.archived-order-admin')->with(['data' => $data]);
+                } else {
+                    App::abort(403);
+                }
+            }
+        }
+        else{
+            App::abort(403);
+        }
+    }
+
+    /**
      * print archived order as pdf file
      * @param null $id
      * @return mixed
@@ -225,7 +329,7 @@ class OrderController extends BaseController{
         }
         else{
             // allow only users with enough privileges or owner of order
-            if(Auth::user()->group->id >= 2 || ($order_data->user_id == Auth::user()->id)){
+            if(Auth::user()->group_id >= 2 || ($order_data->user_id == Auth::user()->id)){
                 // get all items in order
                 $items_data = ItemCart::where('order_id', $order_data->id)->get();
 
@@ -251,6 +355,40 @@ class OrderController extends BaseController{
             else{
                 App::abort(403);
             }
+        }
+    }
+
+    /**
+     * delete user order
+     * @param null $id
+     * @return mixed
+     */
+    public function deleteOrder($id = null)
+    {
+        if(Auth::user()->group_id >= 2) {
+            // check if order exists
+            $order_data = Order::find($id);
+
+            if($order_data == NULL){
+                return Redirect::to('admin/narudzbe')->withErrors('Narudžba ne postoji!');
+            }
+            else{
+                // restore all items quantity from cart to storage
+                $items_cart_data = ItemCart::where('order_id', '=', $order_data->id)->get();
+                foreach($items_cart_data as $item){
+                    $current_item = Item::find($item->item_id);
+                    $current_item->item_quantity += $item->quantity;
+                    $current_item->item_availability = 1;
+                    $current_item->save();
+                }
+
+                $order_data->delete();
+
+                return Redirect::to('admin/narudzbe')->with(['success' => 'Narudžba je uspješno obrisana!']);
+            }
+        }
+        else{
+            App::abort(403);
         }
     }
 

@@ -34,7 +34,7 @@ class ItemController extends BaseController
      */
     public function addItem()
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //get input data
             $input_data = Input::all();
             $token = Input::get('_token');
@@ -84,7 +84,7 @@ class ItemController extends BaseController
      */
     public function editItem()
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //get input data
             $input_data = Input::all();
             $token = Input::get('_token');
@@ -142,7 +142,7 @@ class ItemController extends BaseController
      */
     public function showItemEditForm($id = null)
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             $item = Item::find($id);
 
             if($item == NULL){
@@ -169,7 +169,7 @@ class ItemController extends BaseController
      */
     public function deleteItem($id = null)
     {
-        if(Auth::user()->group->id >= 2){
+        if(Auth::user()->group_id >= 2){
             //find if item exists
             $item = Item::find($id);
 

@@ -67,6 +67,11 @@
                     <h4>
                         Ukupni trošak: <b>{{ number_format($data['order_data']['order_price'], 0 , ',', '.') }} KN</b>
                     </h4>
+
+                    <hr>
+                    <div style="text-align: center; margin: 1em auto;">
+                        Ovjereno od strane TVZSkladišta.
+                    </div>
                 </div>
             </div>
         </div>

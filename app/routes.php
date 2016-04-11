@@ -46,6 +46,9 @@ Route::group(['before' => 'auth'], function() {
 
 		// all orders CRUD
 		Route::get('narudzbe', ['as' => 'orders', 'uses' => 'OrderController@showAllUsersOrders']);
+		Route::get('narudzbe/pregled/{id}', ['as' => 'order-admin-view', 'uses' => 'OrderController@showArchivedOrderAdmin'])->where(['id' => '[\d]+']);
+		Route::get('narudzbe/proizvod/obrisi/{id}', ['as' => 'cart-item-delete-admin', 'uses' => 'OrderController@deleteCartItemAdmin'])->where(['id' => '[\d]+']);
+		Route::get('narudzbe/obrisi/{id}', ['as' => 'order-delete', 'uses' => 'OrderController@deleteOrder'])->where(['id' => '[\d]+']);
 
 		// status
 		Route::get('stanje', ['as' => 'status', 'uses' => 'AdminController@showStatus']);
